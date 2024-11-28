@@ -5,7 +5,6 @@ from flask_appbuilder.security.sqla.models import Role, PermissionView
 from sqlalchemy import Table
 from sqlalchemy.ext.declarative import declared_attr
 
-# Define a mapping between tags and roles
 TAG_TO_ROLE_MAPPING = {
     "objects": "objects_role",
     "sample": "healthcheck_role",
