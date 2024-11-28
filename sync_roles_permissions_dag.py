@@ -1,6 +1,8 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
-from airflow.models import DagBag, Role, Permission
+from airflow.models import DagBag
+from airflow.www.security import AirflowSecurityManager
+from flask_appbuilder.security.sqla.models import Role, Permission
 from airflow.utils.db import provide_session
 from airflow.utils.dates import days_ago
 
