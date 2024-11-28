@@ -1,20 +1,21 @@
-from airflow import DAG
-from airflow.operators.python_operator import PythonOperator
+from airflow import settings
 from airflow.models import DagBag
-from airflow.www.security import AirflowSecurityManager
-from flask_appbuilder.security.sqla.models import Role, Permission
 from airflow.utils.db import provide_session
-from airflow.utils.dates import days_ago
+from flask_appbuilder.security.sqla.models import Role, PermissionView
+from sqlalchemy import Table
+from sqlalchemy.ext.declarative import declared_attr
 
 # Define a mapping between tags and roles
 TAG_TO_ROLE_MAPPING = {
-    "objects": "finance_role",
+    "objects": "objects_role",
     "sample": "healthcheck_role",
 }
 
 # Function to sync roles with DAG tags
 @provide_session
 def sync_roles_with_dag_tags(session=None):
+    role_table = Table("ab_role", Role.metadata, extend_existing=True)
+    permission_view_table = Table("ab_permission_view", PermissionView.metadata, extend_existing=True)
     # Load all DAGs in the system
     dagbag = DagBag()
 
